@@ -1,18 +1,11 @@
 class Square extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      value: null, // Initialize state.value
-    };
-  }
   render() {
     return (
-      <button className="square" onClick={() => this.setState({value: 'X'})}>
-        {/* When you click, the state value change 'null' to 'X' */}
-        {/* Strange comment style ... */}
+      <button className="square" onClick={() => this.props.onClick()}>
+        {/* When you click, call props.onClick passed by renderSquare */}
         {
           /* TODO */
-          this.state.value // Show state.value
+          this.props.value // Show prop.value
         }
       </button>
     );
@@ -20,8 +13,21 @@ class Square extends React.Component {
 }
 
 class Board extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      squares: Array(9).fill(null), // 1. Initialize state.squares
+    };
+  }
+  handleClick(i) { // 2. Function that change state.squares when clicked
+    const squares = this.state.squares.slice(); // Make copy
+    squares[i] = 'X';
+    this.setState({squares: squares}); // Overwrite by copy
+  }
   renderSquare(i) {
-    return <Square value={i} />;
+    return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />;
+    // 3. Pass Board.state.squares[i] to Square.props.value
+    //         Board.state.handleClick() to Square.props.onClick
   }
   render() {
     const status = 'Next player: X';
