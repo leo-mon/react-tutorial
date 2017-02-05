@@ -57,7 +57,6 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	function Square(props) {
-	  // Using Fucntional Component, instead of Class
 	  return React.createElement(
 	    'button',
 	    { className: 'square', onClick: function onClick() {
@@ -79,7 +78,8 @@
 	
 	    _this.state = {
 	      squares: Array(9).fill(null),
-	      xIsNext: true };
+	      xIsNext: true
+	    };
 	    return _this;
 	  }
 	
@@ -87,10 +87,16 @@
 	    key: 'handleClick',
 	    value: function handleClick(i) {
 	      var squares = this.state.squares.slice();
-	      squares[i] = this.state.xIsNext ? 'X' : 'O'; // Set X(true), O(false) by xIsNext
+	      if (calculateWinner(squares) || squares[i]) {
+	        // Check the game already ended or the square was filled.
+	        // If latter doesnt exist, X,O is rotate when you click.
+	        return;
+	      }
+	      squares[i] = this.state.xIsNext ? 'X' : 'O';
 	      this.setState({
 	        squares: squares,
-	        xIsNext: !this.state.xIsNext });
+	        xIsNext: !this.state.xIsNext
+	      });
 	    }
 	  }, {
 	    key: 'renderSquare',
@@ -104,7 +110,14 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var status = 'Next player: X';
+	      var winner = calculateWinner(this.state.squares); // Check by helper function
+	      var status = void 0;
+	      if (winner) {
+	        // winner was return as X, O or null
+	        status = 'Winner: ' + winner;
+	      } else {
+	        status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+	      }
 	      return React.createElement(
 	        'div',
 	        null,

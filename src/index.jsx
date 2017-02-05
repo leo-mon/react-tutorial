@@ -1,4 +1,4 @@
-function Square(props){ // Using Fucntional Component, instead of Class
+function Square(props){
   return (
     <button className="square" onClick={() => props.onClick()}>
       {
@@ -14,22 +14,33 @@ class Board extends React.Component {
     super();
     this.state = {
       squares: Array(9).fill(null),
-      xIsNext: true, // Flag, First Player is X
+      xIsNext: true,
     };
   }
   handleClick(i) {
     const squares = this.state.squares.slice();
-    squares[i] = this.state.xIsNext ? 'X' : 'O'; // Set X(true), O(false) by xIsNext
+    if (calculateWinner(squares) || squares[i]) {
+      // Check the game already ended or the square was filled.
+      // If latter doesnt exist, X,O is rotate when you click.
+      return;
+    }
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
     this.setState({
       squares: squares,
-      xIsNext: !this.state.xIsNext, // reverse xIsNext to change the player
+      xIsNext: !this.state.xIsNext,
     });
   }
   renderSquare(i) {
     return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />;
   }
   render() {
-    const status = 'Next player: X';
+    const winner = calculateWinner(this.state.squares); // Check by helper function
+    let status;
+    if (winner) { // winner was return as X, O or null
+      status = 'Winner: ' + winner;
+    } else {
+      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+    }
     return (
       <div>
         <div className="status">{status}</div>
