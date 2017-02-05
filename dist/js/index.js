@@ -62,21 +62,27 @@
 	  function Square() {
 	    _classCallCheck(this, Square);
 	
-	    return _possibleConstructorReturn(this, (Square.__proto__ || Object.getPrototypeOf(Square)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (Square.__proto__ || Object.getPrototypeOf(Square)).call(this));
+	
+	    _this.state = {
+	      value: null };
+	    return _this;
 	  }
 	
 	  _createClass(Square, [{
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+	
 	      return React.createElement(
 	        'button',
 	        { className: 'square', onClick: function onClick() {
-	            return alert('click');
+	            return _this2.setState({ value: 'X' });
 	          } },
-	        '// Arrow function that call alert',
 	
 	        /* TODO */
-	        this.props.value
+	        this.state.value // Show state.value
+	
 	      );
 	    }
 	  }]);
