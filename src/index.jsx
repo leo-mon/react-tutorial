@@ -1,11 +1,18 @@
 class Square extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      value: null, // Initialize state.value
+    };
+  }
   render() {
     return (
-      <button className="square" onClick={() => alert('click')}>
-        // Arrow function that call alert
+      <button className="square" onClick={() => this.setState({value: 'X'})}>
+        {/* When you click, the state value change 'null' to 'X' */}
+        {/* Strange comment style ... */}
         {
           /* TODO */
-          this.props.value
+          this.state.value // Show state.value
         }
       </button>
     );
