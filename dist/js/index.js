@@ -68,7 +68,14 @@
 	  _createClass(Square, [{
 	    key: "render",
 	    value: function render() {
-	      return React.createElement("button", { className: "square" });
+	      return React.createElement(
+	        "button",
+	        { className: "square" },
+	
+	        /* TODO */
+	        this.props.value // catch params through props.'value'
+	
+	      );
 	    }
 	  }]);
 	
@@ -87,7 +94,7 @@
 	  _createClass(Board, [{
 	    key: "renderSquare",
 	    value: function renderSquare(i) {
-	      return React.createElement(Square, null);
+	      return React.createElement(Square, { value: i }); // Inject a param named 'value' into Square
 	    }
 	  }, {
 	    key: "render",
