@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 	
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 	
@@ -66,15 +66,17 @@
 	  }
 	
 	  _createClass(Square, [{
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 	      return React.createElement(
-	        "button",
-	        { className: "square" },
+	        'button',
+	        { className: 'square', onClick: function onClick() {
+	            return alert('click');
+	          } },
+	        '// Arrow function that call alert',
 	
 	        /* TODO */
-	        this.props.value // catch params through props.'value'
-	
+	        this.props.value
 	      );
 	    }
 	  }]);
@@ -92,39 +94,39 @@
 	  }
 	
 	  _createClass(Board, [{
-	    key: "renderSquare",
+	    key: 'renderSquare',
 	    value: function renderSquare(i) {
-	      return React.createElement(Square, { value: i }); // Inject a param named 'value' into Square
+	      return React.createElement(Square, { value: i });
 	    }
 	  }, {
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 	      var status = 'Next player: X';
 	      return React.createElement(
-	        "div",
+	        'div',
 	        null,
 	        React.createElement(
-	          "div",
-	          { className: "status" },
+	          'div',
+	          { className: 'status' },
 	          status
 	        ),
 	        React.createElement(
-	          "div",
-	          { className: "board-row" },
+	          'div',
+	          { className: 'board-row' },
 	          this.renderSquare(0),
 	          this.renderSquare(1),
 	          this.renderSquare(2)
 	        ),
 	        React.createElement(
-	          "div",
-	          { className: "board-row" },
+	          'div',
+	          { className: 'board-row' },
 	          this.renderSquare(3),
 	          this.renderSquare(4),
 	          this.renderSquare(5)
 	        ),
 	        React.createElement(
-	          "div",
-	          { className: "board-row" },
+	          'div',
+	          { className: 'board-row' },
 	          this.renderSquare(6),
 	          this.renderSquare(7),
 	          this.renderSquare(8)
@@ -146,21 +148,21 @@
 	  }
 	
 	  _createClass(Game, [{
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 	      return React.createElement(
-	        "div",
-	        { className: "game" },
+	        'div',
+	        { className: 'game' },
 	        React.createElement(
-	          "div",
-	          { className: "game-board" },
+	          'div',
+	          { className: 'game-board' },
 	          React.createElement(Board, null)
 	        ),
 	        React.createElement(
-	          "div",
-	          { className: "game-info" },
-	          React.createElement("div", null),
-	          React.createElement("ol", null)
+	          'div',
+	          { className: 'game-info' },
+	          React.createElement('div', null),
+	          React.createElement('ol', null)
 	        )
 	      );
 	    }
