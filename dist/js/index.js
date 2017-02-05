@@ -62,11 +62,7 @@
 	  function Square() {
 	    _classCallCheck(this, Square);
 	
-	    var _this = _possibleConstructorReturn(this, (Square.__proto__ || Object.getPrototypeOf(Square)).call(this));
-	
-	    _this.state = {
-	      value: null };
-	    return _this;
+	    return _possibleConstructorReturn(this, (Square.__proto__ || Object.getPrototypeOf(Square)).apply(this, arguments));
 	  }
 	
 	  _createClass(Square, [{
@@ -77,11 +73,11 @@
 	      return React.createElement(
 	        'button',
 	        { className: 'square', onClick: function onClick() {
-	            return _this2.setState({ value: 'X' });
+	            return _this2.props.onClick();
 	          } },
 	
 	        /* TODO */
-	        this.state.value // Show state.value
+	        this.props.value // Show prop.value
 	
 	      );
 	    }
@@ -96,13 +92,31 @@
 	  function Board() {
 	    _classCallCheck(this, Board);
 	
-	    return _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).apply(this, arguments));
+	    var _this3 = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this));
+	
+	    _this3.state = {
+	      squares: Array(9).fill(null) };
+	    return _this3;
 	  }
 	
 	  _createClass(Board, [{
+	    key: 'handleClick',
+	    value: function handleClick(i) {
+	      // 2. Function that change state.squares when clicked
+	      var squares = this.state.squares.slice(); // Make copy
+	      squares[i] = 'X';
+	      this.setState({ squares: squares }); // Overwrite by copy
+	    }
+	  }, {
 	    key: 'renderSquare',
 	    value: function renderSquare(i) {
-	      return React.createElement(Square, { value: i });
+	      var _this4 = this;
+	
+	      return React.createElement(Square, { value: this.state.squares[i], onClick: function onClick() {
+	          return _this4.handleClick(i);
+	        } });
+	      // 3. Pass Board.state.squares[i] to Square.props.value
+	      //         Board.state.handleClick() to Square.props.onClick
 	    }
 	  }, {
 	    key: 'render',
