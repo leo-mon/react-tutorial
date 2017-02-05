@@ -56,67 +56,48 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Square = function (_React$Component) {
-	  _inherits(Square, _React$Component);
+	function Square(props) {
+	  // Using Fucntional Component, instead of Class
+	  return React.createElement(
+	    'button',
+	    { className: 'square', onClick: function onClick() {
+	        return props.onClick();
+	      } },
 	
-	  function Square() {
-	    _classCallCheck(this, Square);
+	    /* TODO */
+	    props.value
+	  );
+	}
 	
-	    return _possibleConstructorReturn(this, (Square.__proto__ || Object.getPrototypeOf(Square)).apply(this, arguments));
-	  }
-	
-	  _createClass(Square, [{
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
-	
-	      return React.createElement(
-	        'button',
-	        { className: 'square', onClick: function onClick() {
-	            return _this2.props.onClick();
-	          } },
-	
-	        /* TODO */
-	        this.props.value // Show prop.value
-	
-	      );
-	    }
-	  }]);
-	
-	  return Square;
-	}(React.Component);
-	
-	var Board = function (_React$Component2) {
-	  _inherits(Board, _React$Component2);
+	var Board = function (_React$Component) {
+	  _inherits(Board, _React$Component);
 	
 	  function Board() {
 	    _classCallCheck(this, Board);
 	
-	    var _this3 = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this));
+	    var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this));
 	
-	    _this3.state = {
-	      squares: Array(9).fill(null) };
-	    return _this3;
+	    _this.state = {
+	      squares: Array(9).fill(null)
+	    };
+	    return _this;
 	  }
 	
 	  _createClass(Board, [{
 	    key: 'handleClick',
 	    value: function handleClick(i) {
-	      // 2. Function that change state.squares when clicked
-	      var squares = this.state.squares.slice(); // Make copy
+	      var squares = this.state.squares.slice();
 	      squares[i] = 'X';
-	      this.setState({ squares: squares }); // Overwrite by copy
+	      this.setState({ squares: squares });
 	    }
 	  }, {
 	    key: 'renderSquare',
 	    value: function renderSquare(i) {
-	      var _this4 = this;
+	      var _this2 = this;
 	
 	      return React.createElement(Square, { value: this.state.squares[i], onClick: function onClick() {
-	          return _this4.handleClick(i);
+	          return _this2.handleClick(i);
 	        } });
-	      // 3. Pass Board.state.squares[i] to Square.props.value
-	      //         Board.state.handleClick() to Square.props.onClick
 	    }
 	  }, {
 	    key: 'render',
@@ -158,8 +139,8 @@
 	  return Board;
 	}(React.Component);
 	
-	var Game = function (_React$Component3) {
-	  _inherits(Game, _React$Component3);
+	var Game = function (_React$Component2) {
+	  _inherits(Game, _React$Component2);
 	
 	  function Game() {
 	    _classCallCheck(this, Game);
