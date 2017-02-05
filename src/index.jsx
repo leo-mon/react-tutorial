@@ -14,12 +14,16 @@ class Board extends React.Component {
     super();
     this.state = {
       squares: Array(9).fill(null),
+      xIsNext: true, // Flag, First Player is X
     };
   }
   handleClick(i) {
     const squares = this.state.squares.slice();
-    squares[i] = 'X';
-    this.setState({squares: squares});
+    squares[i] = this.state.xIsNext ? 'X' : 'O'; // Set X(true), O(false) by xIsNext
+    this.setState({
+      squares: squares,
+      xIsNext: !this.state.xIsNext, // reverse xIsNext to change the player
+    });
   }
   renderSquare(i) {
     return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />;

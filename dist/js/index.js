@@ -78,8 +78,8 @@
 	    var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this));
 	
 	    _this.state = {
-	      squares: Array(9).fill(null)
-	    };
+	      squares: Array(9).fill(null),
+	      xIsNext: true };
 	    return _this;
 	  }
 	
@@ -87,8 +87,10 @@
 	    key: 'handleClick',
 	    value: function handleClick(i) {
 	      var squares = this.state.squares.slice();
-	      squares[i] = 'X';
-	      this.setState({ squares: squares });
+	      squares[i] = this.state.xIsNext ? 'X' : 'O'; // Set X(true), O(false) by xIsNext
+	      this.setState({
+	        squares: squares,
+	        xIsNext: !this.state.xIsNext });
 	    }
 	  }, {
 	    key: 'renderSquare',
