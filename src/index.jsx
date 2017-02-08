@@ -1,11 +1,13 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
+
 class Square extends React.Component {
   render() {
     return (
-      <button className="square" onClick={() => alert('click')}>
-        // Arrow function that call alert
+      <button className="square">
         {
           /* TODO */
-          this.props.value
+          this.props.value  // catch params through props.'value'
         }
       </button>
     );
@@ -14,7 +16,7 @@ class Square extends React.Component {
 
 class Board extends React.Component {
   renderSquare(i) {
-    return <Square value={i} />;
+    return <Square value={i} />; // Inject a param named 'value' into Square
   }
   render() {
     const status = 'Next player: X';
