@@ -1,3 +1,6 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
+
 function Square(props){ // Using Fucntional Component, instead of Class
   return (
     <button className="square" onClick={() => props.onClick()}>
