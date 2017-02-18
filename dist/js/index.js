@@ -93,7 +93,6 @@
 	      return _react2.default.createElement(Square, { value: this.props.squares[i], onClick: function onClick() {
 	          return _this2.props.onClick(i);
 	        } });
-	      // Pass squares and handleClick from Game to Square.
 	    }
 	  }, {
 	    key: 'render',
@@ -132,7 +131,6 @@
 	var Game = function (_React$Component2) {
 	  _inherits(Game, _React$Component2);
 	
-	  // Upper class of Board, Store history.
 	  function Game() {
 	    _classCallCheck(this, Game);
 	
@@ -150,20 +148,19 @@
 	  _createClass(Game, [{
 	    key: 'handleClick',
 	    value: function handleClick(i) {
-	      // history have to be set by handleclick(), so this method is in Game class
 	      var history = this.state.history;
-	      var current = history[history.length - 1]; // End element of history
-	      var squares = current.squares.slice(); // Copy newest status
+	      var current = history[history.length - 1];
+	      var squares = current.squares.slice();
 	      if (calculateWinner(squares) || squares[i]) {
-	        return; // if the winner has been already determined, or the square filled, return nothing.
+	        return;
 	      }
 	      squares[i] = this.state.xIsNext ? 'X' : 'O';
-	      this.setState({ // update Game.state
+	      this.setState({
 	        history: history.concat([{
-	          // Add a new element to history array
-	          squares: squares // the element contains new status:Array(9)
+	          squares: squares
 	        }]),
-	        xIsNext: !this.state.xIsNext });
+	        xIsNext: !this.state.xIsNext
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -173,8 +170,24 @@
 	      var history = this.state.history;
 	      var current = history[history.length - 1];
 	      var winner = calculateWinner(current.squares);
+	      var moves = history.map(function (step, move) {
+	        // array.map method: arg[0]: value of array, arg[1]: index of array
+	        var desc = move ? 'Move #' + move : // if move > 0
+	        'Game start'; // if move = 0
+	        return _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#', onClick: function onClick() {
+	                return _this4.jumpTo(move);
+	              } },
+	            desc
+	          )
+	        );
+	      });
 	
-	      var status = void 0; // indicate who's turn or who won
+	      var status = void 0;
 	      if (winner) {
 	        status = 'Winner: ' + winner;
 	      } else {
@@ -201,7 +214,11 @@
 	            null,
 	            status
 	          ),
-	          _react2.default.createElement('ol', null)
+	          _react2.default.createElement(
+	            'ol',
+	            null,
+	            moves
+	          )
 	        )
 	      );
 	    }

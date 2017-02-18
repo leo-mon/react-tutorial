@@ -14,7 +14,6 @@ function Square(props){
 class Board extends React.Component {
   renderSquare(i) {
     return <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />;
-    // Pass squares and handleClick from Game to Square.
   }
   render() {
     return (
@@ -40,7 +39,6 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
-  // Upper class of Board, Store history.
   constructor() {
     super();
     this.state = {
@@ -52,20 +50,18 @@ class Game extends React.Component {
   }
 
   handleClick(i) {
-    // history have to be set by handleclick(), so this method is in Game class
     const history = this.state.history;
-    const current = history[history.length - 1]; // End element of history
-    const squares = current.squares.slice(); // Copy newest status
+    const current = history[history.length - 1];
+    const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
-      return; // if the winner has been already determined, or the square filled, return nothing.
+      return;
     }
     squares[i] = this.state.xIsNext ? 'X' : 'O';
-    this.setState({ // update Game.state
+    this.setState({
       history: history.concat([{
-        // Add a new element to history array
-        squares: squares // the element contains new status:Array(9)
+        squares: squares
       }]),
-      xIsNext: !this.state.xIsNext, // reverse true or false
+      xIsNext: !this.state.xIsNext,
     });
   }
 
@@ -73,8 +69,20 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[history.length - 1];
     const winner = calculateWinner(current.squares)
+    const moves = history.map((step, move) => {
+      // array.map method: arg[0]: value of array, arg[1]: index of array
+      const desc = move ?
+        'Move #' + move : // if move > 0
+        'Game start'; // if move = 0
+      return (
+        <li>
+          <a href="#" onClick={() => this.jumpTo(move)}>{desc}</a>
+          {/* jumpTo is not defined at this section */}
+        </li>
+      )
+    })
 
-    let status; // indicate who's turn or who won
+    let status;
     if (winner) {
       status = 'Winner: ' + winner;
     } else {
@@ -83,7 +91,6 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          {/* Pass squares and handleClick() to the Board Component */}
           <Board
             squares={current.squares}
             onClick={(i) => this.handleClick(i)}
@@ -91,7 +98,9 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{/* TODO */}</ol>
+          <ol>{/* TODO */}
+            {moves}
+          </ol>
         </div>
       </div>
     );
