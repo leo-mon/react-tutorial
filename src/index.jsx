@@ -1,11 +1,10 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 function Square(props){
   return (
     <button className="square" onClick={() => props.onClick()}>
       {
-        /* TODO */
         props.value
       }
     </button>
@@ -13,40 +12,13 @@ function Square(props){
 }
 
 class Board extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      squares: Array(9).fill(null),
-      xIsNext: true,
-    };
-  }
-  handleClick(i) {
-    const squares = this.state.squares.slice();
-    if (calculateWinner(squares) || squares[i]) {
-      // Check the game already ended or the square was filled.
-      // If latter doesnt exist, X,O is rotate when you click.
-      return;
-    }
-    squares[i] = this.state.xIsNext ? 'X' : 'O';
-    this.setState({
-      squares: squares,
-      xIsNext: !this.state.xIsNext,
-    });
-  }
   renderSquare(i) {
-    return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />;
+    return <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />;
+    // Pass squares and handleClick from Game to Square.
   }
   render() {
-    const winner = calculateWinner(this.state.squares); // Check by helper function
-    let status;
-    if (winner) { // winner was return as X, O or null
-      status = 'Winner: ' + winner;
-    } else {
-      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-    }
     return (
       <div>
-        <div className="status">{status}</div>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
@@ -68,14 +40,57 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
+  // Upper class of Board, Store history.
+  constructor() {
+    super();
+    this.state = {
+      history: [{
+        squares: Array(9).fill(null)
+      }],
+      xIsNext: true
+    };
+  }
+
+  handleClick(i) {
+    // history have to be set by handleclick(), so this method is in Game class
+    const history = this.state.history;
+    const current = history[history.length - 1]; // End element of history
+    const squares = current.squares.slice(); // Copy newest status
+    if (calculateWinner(squares) || squares[i]) {
+      return; // if the winner has been already determined, or the square filled, return nothing.
+    }
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    this.setState({ // update Game.state
+      history: history.concat([{
+        // Add a new element to history array
+        squares: squares // the element contains new status:Array(9)
+      }]),
+      xIsNext: !this.state.xIsNext, // reverse true or false
+    });
+  }
+
   render() {
+    const history = this.state.history;
+    const current = history[history.length - 1];
+    const winner = calculateWinner(current.squares)
+
+    let status; // indicate who's turn or who won
+    if (winner) {
+      status = 'Winner: ' + winner;
+    } else {
+      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+    }
     return (
       <div className="game">
         <div className="game-board">
-          <Board />
+          {/* Pass squares and handleClick() to the Board Component */}
+          <Board
+            squares={current.squares}
+            onClick={(i) => this.handleClick(i)}
+          />
         </div>
         <div className="game-info">
-          <div>{/* status */}</div>
+          <div>{status}</div>
           <ol>{/* TODO */}</ol>
         </div>
       </div>
