@@ -140,7 +140,8 @@
 	      history: [{
 	        squares: Array(9).fill(null)
 	      }],
-	      xIsNext: true
+	      xIsNext: true,
+	      stepNumber: 0
 	    };
 	    return _this3;
 	  }
@@ -159,7 +160,16 @@
 	        history: history.concat([{
 	          squares: squares
 	        }]),
-	        xIsNext: !this.state.xIsNext
+	        xIsNext: !this.state.xIsNext,
+	        stepNumber: history.length
+	      });
+	    }
+	  }, {
+	    key: 'jumpTo',
+	    value: function jumpTo(step) {
+	      this.setState({
+	        stepNumber: step,
+	        xIsNext: step % 2 ? false : true
 	      });
 	    }
 	  }, {
@@ -168,7 +178,7 @@
 	      var _this4 = this;
 	
 	      var history = this.state.history;
-	      var current = history[history.length - 1];
+	      var current = history[this.state.stepNumber];
 	      var winner = calculateWinner(current.squares);
 	      var moves = history.map(function (step, move) {
 	        // array.map method: arg[0]: value of array, arg[1]: index of array
@@ -176,7 +186,7 @@
 	        'Game start'; // if move = 0
 	        return _react2.default.createElement(
 	          'li',
-	          null,
+	          { key: move },
 	          _react2.default.createElement(
 	            'a',
 	            { href: '#', onClick: function onClick() {
